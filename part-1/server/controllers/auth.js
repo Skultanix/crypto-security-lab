@@ -1,21 +1,37 @@
+const bcryptjs = require(`bcryptjs`)
 const users = []
 
 module.exports = {
     login: (req, res) => {
-      console.log('Logging In User')
-      console.log(req.body)
       const { username, password } = req.body
       for (let i = 0; i < users.length; i++) {
-        if (users[i].username === username && users[i].password === password) {
-          res.status(200).send(users[i])
+        if (users[i].username === username){
+          const verified = bcryptjs.compareSync(password, users[i].passHash)
+          if(verified) {
+            let userReturn = {...users[i]}
+            delete userReturn.passHash
+            return res.status(200).send(userReturn)
+          }
         }
       }
       res.status(400).send("User not found.")
     },
+
     register: (req, res) => {
-        console.log('Registering User')
-        console.log(req.body)
-        users.push(req.body)
-        res.status(200).send(req.body)
+      const {username, email, firstName, lastName, password} = req.body
+      const passHash = bcryptjs.hashSync(password)
+      req.body.password = passHash
+      let user = {
+        username,
+        email,
+        firstName,
+        lastName,
+        passHash
+
+      }
+      users.push(user)
+      let userReturn = {...user}
+      delete userReturn.passHash
+        res.status(200).send(userReturn)
     }
 }
