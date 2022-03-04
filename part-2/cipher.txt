@@ -1,0 +1,9 @@
+For my cipher, the alphabet split between vowels and consonants (including y). 
+Vowels are reassigned to numbers in reverse order (AEIOUY = 654321). 
+Consonants are shifted up two letters (FGHJK = DEFHI)
+Letters cycle through so AB = YZ
+
+My cypher would rewrite "I love cryptography!" as "4 J3T5 AP1NR3EP6NF1!". 
+Running "4 J3T5 AP1NR3EP6NF1!" into the cipher function does not in fact decipher the code,
+an inverse code would need to be written to decipher it (and that would take just as long or longer)
+to write.
